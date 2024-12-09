@@ -32,4 +32,11 @@ public class EmployeeController {
     public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable String id) {
         return ResponseEntity.ok(employeeService.getById(id));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<EmployeeDTO> updateEmployeeById(@PathVariable String id, @RequestBody EmployeeDTO employeeDTO) {
+        employeeDTO.setId(id);
+        return new ResponseEntity<>(employeeService.update(employeeDTO), HttpStatus.NO_CONTENT);
+    }
+
 }

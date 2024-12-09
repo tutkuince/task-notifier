@@ -39,6 +39,19 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public EmployeeDTO update(EmployeeDTO employeeDTO) {
+        Employee selectedEmployee = employeeRepository.findById(employeeDTO.getId()).orElseThrow(IllegalAccessError::new);
+        selectedEmployee.setName(employeeDTO.getName());
+        selectedEmployee.setSurname(employeeDTO.getSurname());
+        selectedEmployee.setEmail(employeeDTO.getEmail());
+        selectedEmployee.setJob(employeeDTO.getJob());
+        selectedEmployee.setAge(employeeDTO.getAge());
+
+        employeeRepository.save(selectedEmployee);
+        return EmployeeMapper.mapToEmployeeDTO(selectedEmployee);
+    }
+
+    @Override
     public EmployeeDTO deleteById(String id) {
         return null;
     }
