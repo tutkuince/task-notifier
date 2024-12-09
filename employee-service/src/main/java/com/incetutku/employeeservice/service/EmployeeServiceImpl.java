@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -19,7 +20,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<EmployeeDTO> getAll() {
-        return List.of();
+        return employeeRepository.findAll().stream().map(EmployeeMapper::mapToEmployeeDTO).collect(Collectors.toList());
     }
 
     @Override
