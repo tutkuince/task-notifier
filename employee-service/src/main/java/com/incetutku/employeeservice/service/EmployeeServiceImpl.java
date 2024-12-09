@@ -53,7 +53,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public EmployeeDTO deleteById(String id) {
-        return null;
+        Employee selectedEmployee = employeeRepository.findById(id).orElseThrow(IllegalAccessError::new);
+        employeeRepository.deleteById(id);
+        return EmployeeMapper.mapToEmployeeDTO(selectedEmployee);
     }
 
     @Override
