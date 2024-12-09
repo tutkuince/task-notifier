@@ -1,0 +1,6 @@
+server:
+  port: 7201
+
+spring:
+  application:
+    name: EMPLOYEE-SERVICE
