@@ -24,8 +24,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Optional<EmployeeDTO> getById(String id) {
-        return Optional.empty();
+    public EmployeeDTO getById(String id) {
+        Employee employee = employeeRepository.findById(id).orElseThrow(IllegalAccessError::new);
+        return EmployeeMapper.mapToEmployeeDTO(employee);
     }
 
     @Override

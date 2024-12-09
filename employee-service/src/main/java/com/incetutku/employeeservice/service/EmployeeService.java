@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface EmployeeService {
     public List<EmployeeDTO> getAll();
 
-    public Optional<EmployeeDTO> getById(String id);
+    public EmployeeDTO getById(String id);
 
     public EmployeeDTO save(EmployeeDTO employeeDTO);
 
