@@ -2,10 +2,7 @@ package com.incetutku.employeeservice.entity;
 
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -16,12 +13,13 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "employees")
+@Builder
 public class Employee {
 
     @Id
     private String id;
 
-    @NotBlank
+    @NotEmpty
     private String name;
 
     private String surname;
@@ -31,7 +29,7 @@ public class Employee {
     @Pattern(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\\\.[a-z]{2,3}", flags = Pattern.Flag.CASE_INSENSITIVE)
     private String email;
 
-    private String position;
+    private String job;
 
     @Min(18)
     @Max(100)

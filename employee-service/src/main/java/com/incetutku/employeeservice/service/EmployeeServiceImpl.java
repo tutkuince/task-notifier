@@ -1,5 +1,6 @@
 package com.incetutku.employeeservice.service;
 
+import com.incetutku.employeeservice.dto.EmployeeDTO;
 import com.incetutku.employeeservice.entity.Employee;
 import com.incetutku.employeeservice.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,27 +17,40 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
 
     @Override
-    public List<Employee> getAll() {
+    public List<EmployeeDTO> getAll() {
         return List.of();
     }
 
     @Override
-    public Optional<Employee> getById(String id) {
+    public Optional<EmployeeDTO> getById(String id) {
         return Optional.empty();
     }
 
     @Override
-    public Employee save(Employee employee) {
+    public EmployeeDTO save(EmployeeDTO employeeDTO) {
+        Employee employee = Employee.builder()
+                .name(employeeDTO.getName())
+                .surname(employeeDTO.getSurname())
+                .email(employeeDTO.getEmail())
+                .job(employeeDTO.getJob())
+                .age(employeeDTO.getAge())
+                .build();
+
+        Employee savedEmployee = employeeRepository.save(employee);
+
+        employeeDTO.setId(savedEmployee.getId());
+        employeeDTO.setCreatedDate(savedEmployee.getCreatedDate());
+
+        return employeeDTO;
+    }
+
+    @Override
+    public EmployeeDTO deleteById(String id) {
         return null;
     }
 
     @Override
-    public Employee deleteById(String id) {
-        return null;
-    }
-
-    @Override
-    public Page<Employee> findPagination(int pageSize, int pageNo, String sortField, String sortDirection) {
+    public Page<EmployeeDTO> findPagination(int pageSize, int pageNo, String sortField, String sortDirection) {
         return null;
     }
 }
