@@ -1,0 +1,11 @@
+server:
+  port: 7201
+
+spring:
+  application:
+    name: EUREKA-SERVER
+
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:7201/eureka/

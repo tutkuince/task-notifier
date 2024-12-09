@@ -1,6 +1,11 @@
 server:
-  port: 7201
+  port: 7202
 
 spring:
   application:
     name: EMPLOYEE-SERVICE
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7201/eureka/
