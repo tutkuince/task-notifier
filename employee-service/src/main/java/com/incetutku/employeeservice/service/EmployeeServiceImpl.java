@@ -2,6 +2,7 @@ package com.incetutku.employeeservice.service;
 
 import com.incetutku.employeeservice.dto.EmployeeDTO;
 import com.incetutku.employeeservice.entity.Employee;
+import com.incetutku.employeeservice.mapper.EmployeeMapper;
 import com.incetutku.employeeservice.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -28,20 +29,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public EmployeeDTO save(EmployeeDTO employeeDTO) {
-        Employee employee = Employee.builder()
-                .name(employeeDTO.getName())
-                .surname(employeeDTO.getSurname())
-                .email(employeeDTO.getEmail())
-                .job(employeeDTO.getJob())
-                .age(employeeDTO.getAge())
-                .build();
+        Employee employee = EmployeeMapper.mapToEmployee(employeeDTO);
 
         Employee savedEmployee = employeeRepository.save(employee);
 
-        employeeDTO.setId(savedEmployee.getId());
-        employeeDTO.setCreatedDate(savedEmployee.getCreatedDate());
-
-        return employeeDTO;
+        return EmployeeMapper.mapToEmployeeDTO(savedEmployee);
     }
 
     @Override
