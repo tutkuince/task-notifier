@@ -1,0 +1,9 @@
+server:
+  port: 7203
+
+spring:
+  application:
+    name: TASK-SERVICE
+
+  config:
+    import: "optional:configserver:http://localhost:7200"
