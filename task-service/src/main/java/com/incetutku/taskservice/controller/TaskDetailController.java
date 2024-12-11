@@ -3,6 +3,7 @@ package com.incetutku.taskservice.controller;
 import com.incetutku.taskservice.dto.TaskDetailDTO;
 import com.incetutku.taskservice.service.TaskDetailService;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.service.GenericResponseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import java.util.List;
 public class TaskDetailController {
 
     private final TaskDetailService taskDetailService;
+    private final GenericResponseService responseBuilder;
 
     @PostMapping
     public ResponseEntity<TaskDetailDTO> createTaskDetail(@RequestBody TaskDetailDTO taskDetailDTO) {
@@ -29,5 +31,16 @@ public class TaskDetailController {
     @GetMapping("/{id}")
     public ResponseEntity<TaskDetailDTO> getTaskDetailById(@PathVariable String id) {
         return ResponseEntity.ok(taskDetailService.getTaskDetailById(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<TaskDetailDTO> updateTaskDetail(@PathVariable String id, @RequestBody TaskDetailDTO taskDetailDTO) {
+        taskDetailDTO.setId(id);
+        return ResponseEntity.ok(taskDetailService.updateTaskDetail(taskDetailDTO));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<TaskDetailDTO> deleteTaskDetailById(@PathVariable String id) {
+        return ResponseEntity.ok(taskDetailService.deleteTaskDetailById(id));
     }
 }

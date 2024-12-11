@@ -50,11 +50,25 @@ public class TaskDetailServiceImpl implements TaskDetailService {
 
     @Override
     public TaskDetailDTO updateTaskDetail(TaskDetailDTO taskDetailDTO) {
-        return null;
+        TaskDetail selectedTaskDetail = taskDetailRepository.findById(taskDetailDTO.getId()).orElseThrow(IllegalArgumentException::new);
+        selectedTaskDetail.setEmployeeId(taskDetailDTO.getEmployeeId());
+        selectedTaskDetail.setEmployeeName(taskDetailDTO.getEmployeeName());
+        selectedTaskDetail.setEmployeeSurname(taskDetailDTO.getEmployeeSurname());
+        selectedTaskDetail.setTaskTitle(taskDetailDTO.getTaskTitle());
+        selectedTaskDetail.setTaskDescription(taskDetailDTO.getTaskDescription());
+        selectedTaskDetail.setStatus(taskDetailDTO.getStatus());
+        selectedTaskDetail.setPriority(taskDetailDTO.getPriority());
+
+        taskDetailRepository.save(selectedTaskDetail);
+
+        return taskDetailDTO;
     }
 
     @Override
     public TaskDetailDTO deleteTaskDetailById(String id) {
-        return null;
+        TaskDetail selectedTaskDetail = taskDetailRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        TaskDetailDTO taskDetailDTO = TaskDetailMapper.mapToTaskDetailDTO(selectedTaskDetail);
+        taskDetailRepository.deleteById(id);
+        return taskDetailDTO;
     }
 }
