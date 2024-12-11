@@ -6,6 +6,7 @@ import com.incetutku.taskservice.entity.Status;
 import com.incetutku.taskservice.entity.Task;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 public final class TaskMapper {
 
@@ -19,7 +20,7 @@ public final class TaskMapper {
         task.setDescription(taskDTO.getDescription());
         task.setNotes(taskDTO.getNotes());
         task.setAssignee(taskDTO.getAssignee());
-        task.setStartDate(Timestamp.valueOf(taskDTO.getStartDate().toLocalDateTime()));
+        task.setStartDate(Objects.isNull(taskDTO.getStartDate()) ? null : Timestamp.valueOf(taskDTO.getStartDate().toLocalDateTime()));
         task.setStatus(Status.valueOf(taskDTO.getStatus()));
         task.setPriorityType(PriorityType.valueOf(taskDTO.getPriorityType()));
         return task;
