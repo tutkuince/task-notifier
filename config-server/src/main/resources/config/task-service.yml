@@ -11,6 +11,10 @@ spring:
     password: s3cr3t
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+  data:
+    elasticsearch:
+      cluster-node: localhost:9200
+
   jpa:
     show-sql: true
     hibernate:

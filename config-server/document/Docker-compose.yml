@@ -18,12 +18,14 @@ services:
       MYSQL_ROOT_PASSWORD: s3cr3t
 
   elasticsearch:
-    image: elasticsearch:8.11.3
+    image: elasticsearch:8.12.0
     container_name: elasticsearch
     restart: always
+    expose:
+      - 9200
     ports:
       - "9200:9200"
-      - "9300:9300"
     environment:
-      discovery.type: single-node
+      - xpack.security.enabled=false
+      - "discovery.type=single-node"
 
