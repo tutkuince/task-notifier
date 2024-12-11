@@ -8,6 +8,7 @@ import com.incetutku.taskservice.repository.TaskDetailRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,7 +26,8 @@ public class TaskDetailServiceImpl implements TaskDetailService {
 
     @Override
     public TaskDetailDTO getTaskDetailById(String id) {
-        return null;
+        TaskDetail selectedTaskDetail = taskDetailRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        return TaskDetailMapper.mapToTaskDetailDTO(selectedTaskDetail);
     }
 
     @Override
@@ -40,7 +42,10 @@ public class TaskDetailServiceImpl implements TaskDetailService {
 
     @Override
     public List<TaskDetailDTO> getAllTaskDetails() {
-        return List.of();
+        List<TaskDetail> taskDetailList = new ArrayList<>();
+        Iterable<TaskDetail> taskDetails = taskDetailRepository.findAll();
+        taskDetails.forEach(taskDetailList::add);
+        return taskDetailList.stream().map(TaskDetailMapper::mapToTaskDetailDTO).toList();
     }
 
     @Override
