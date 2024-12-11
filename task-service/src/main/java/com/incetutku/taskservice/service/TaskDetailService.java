@@ -1,12 +1,11 @@
 package com.incetutku.taskservice.service;
 
-import com.incetutku.taskservice.dto.TaskDTO;
 import com.incetutku.taskservice.dto.TaskDetailDTO;
 
 import java.util.List;
 
 public interface TaskDetailService {
-    TaskDetailDTO save(TaskDTO taskDTO);
+    TaskDetailDTO save(TaskDetailDTO taskDTO);
 
     TaskDetailDTO getTaskDetailById(String id);
 

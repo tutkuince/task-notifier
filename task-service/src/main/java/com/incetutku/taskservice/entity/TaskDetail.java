@@ -6,7 +6,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.io.Serializable;
 
-@Document(indexName = "taskDetail")
+@Document(indexName = "task_details")
 @Data
 @Builder
 @AllArgsConstructor

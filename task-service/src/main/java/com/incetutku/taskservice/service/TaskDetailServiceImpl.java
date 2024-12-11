@@ -2,6 +2,8 @@ package com.incetutku.taskservice.service;
 
 import com.incetutku.taskservice.dto.TaskDTO;
 import com.incetutku.taskservice.dto.TaskDetailDTO;
+import com.incetutku.taskservice.entity.TaskDetail;
+import com.incetutku.taskservice.mapper.TaskDetailMapper;
 import com.incetutku.taskservice.repository.TaskDetailRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,8 +17,10 @@ public class TaskDetailServiceImpl implements TaskDetailService {
     private final TaskDetailRepository taskDetailRepository;
 
     @Override
-    public TaskDetailDTO save(TaskDTO taskDTO) {
-        return null;
+    public TaskDetailDTO save(TaskDetailDTO taskDetailDTO) {
+        TaskDetail savableTask = TaskDetailMapper.mapToTaskDetail(taskDetailDTO);
+        TaskDetail savedTaskDetail = taskDetailRepository.save(savableTask);
+        return TaskDetailMapper.mapToTaskDetailDTO(savedTaskDetail);
     }
 
     @Override
