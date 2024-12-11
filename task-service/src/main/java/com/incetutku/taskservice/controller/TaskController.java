@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/v1/tasks")
@@ -34,5 +35,16 @@ public class TaskController {
     @PostMapping
     public ResponseEntity<TaskDTO> createTask(@RequestBody TaskDTO taskDTO) {
         return new ResponseEntity<>(taskService.save(taskDTO), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<TaskDTO> updateTask(@PathVariable String id, @RequestBody TaskDTO taskDTO) {
+        taskDTO.setId(id);
+        return new ResponseEntity<>(taskService.update(taskDTO), HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<TaskDTO> deleteTaskById(@PathVariable String id) {
+        return new ResponseEntity<>(taskService.deleteTaskById(id), HttpStatus.NO_CONTENT);
     }
 }

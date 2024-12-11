@@ -1,6 +1,8 @@
 package com.incetutku.taskservice.service;
 
 import com.incetutku.taskservice.dto.TaskDTO;
+import com.incetutku.taskservice.entity.PriorityType;
+import com.incetutku.taskservice.entity.Status;
 import com.incetutku.taskservice.entity.Task;
 import com.incetutku.taskservice.mapper.TaskMapper;
 import com.incetutku.taskservice.repository.TaskRepository;
@@ -9,7 +11,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,8 +31,18 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public TaskDTO update(String id, TaskDTO taskDTO) {
-        return null;
+    public TaskDTO update(TaskDTO taskDTO) {
+        Task task = taskRepository.findById(taskDTO.getId()).orElseThrow(IllegalAccessError::new);
+        task.setTitle(taskDTO.getTitle());
+        task.setDescription(taskDTO.getDescription());
+        task.setNotes(taskDTO.getNotes());
+        task.setAssignee(taskDTO.getAssignee());
+        task.setStartDate(taskDTO.getStartDate());
+        task.setStatus(Status.valueOf(taskDTO.getStatus()));
+        task.setPriorityType(PriorityType.valueOf(taskDTO.getPriorityType()));
+
+        taskRepository.save(task);
+        return taskDTO;
     }
 
     @Override
@@ -50,6 +65,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskDTO deleteTaskById(String id) {
-        return null;
+        TaskDTO taskById = getTaskById(id);
+        taskRepository.deleteById(id);
+        return taskById;
     }
 }

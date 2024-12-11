@@ -9,7 +9,7 @@ public interface TaskService {
 
     TaskDTO save(TaskDTO taskDTO);
 
-    TaskDTO update(String id, TaskDTO taskDTO);
+    TaskDTO update(TaskDTO taskDTO);
 
     TaskDTO getTaskById(String id);
 
