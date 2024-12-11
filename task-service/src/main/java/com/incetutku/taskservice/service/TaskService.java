@@ -15,7 +15,7 @@ public interface TaskService {
 
     List<TaskDTO> getAllTasks();
 
-    Page<TaskDTO> getPagination(int pageSize, int pageNo);
+    List<TaskDTO> getPagination(int pageNumber, int pageSize);
 
     TaskDTO deleteTaskById(String id);
 }

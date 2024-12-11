@@ -7,12 +7,24 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/tasks")
 @RequiredArgsConstructor
 public class TaskController {
 
     private final TaskService taskService;
+
+    @GetMapping
+    public ResponseEntity<List<TaskDTO>> getAllTasks() {
+        return ResponseEntity.ok(taskService.getAllTasks());
+    }
+
+    @GetMapping("/{pageSize}/{pageNumber}")
+    public ResponseEntity<List<TaskDTO>> getAllTasksWithPagination(@PathVariable int pageNumber, @PathVariable int pageSize) {
+        return ResponseEntity.ok(taskService.getPagination(pageNumber, pageSize));
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<TaskDTO> getTaskById(@PathVariable String id) {

@@ -6,9 +6,11 @@ import com.incetutku.taskservice.mapper.TaskMapper;
 import com.incetutku.taskservice.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -36,12 +38,14 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskDTO> getAllTasks() {
-        return List.of();
+        List<Task> taskList = taskRepository.findAll();
+        return taskList.stream().map(TaskMapper::mapToTaskDTO).toList();
     }
 
     @Override
-    public Page<TaskDTO> getPagination(int pageSize, int pageNo) {
-        return null;
+    public List<TaskDTO> getPagination(int pageNumber, int pageSize) {
+        Page<Task> tasks = taskRepository.findAll(PageRequest.of(pageNumber, pageSize));
+        return tasks.stream().map(TaskMapper::mapToTaskDTO).toList();
     }
 
     @Override
