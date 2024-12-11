@@ -13,6 +13,8 @@ public interface TaskDetailService {
 
     List<TaskDetailDTO> getWithContainTaskTitle(String taskTitle);
 
+    List<TaskDetailDTO> getWithStartsName(String employeeName);
+
     List<TaskDetailDTO> getAllTaskDetails();
 
     TaskDetailDTO updateTaskDetail(TaskDetailDTO taskDetailDTO);

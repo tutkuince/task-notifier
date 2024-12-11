@@ -32,12 +32,19 @@ public class TaskDetailServiceImpl implements TaskDetailService {
 
     @Override
     public List<TaskDetailDTO> getWithContainTaskDescription(String taskDescription) {
-        return List.of();
+        List<TaskDetail> byTaskDescriptionContains = taskDetailRepository.findByTaskDescriptionContains(taskDescription);
+        return byTaskDescriptionContains.stream().map(TaskDetailMapper::mapToTaskDetailDTO).toList();
     }
 
     @Override
     public List<TaskDetailDTO> getWithContainTaskTitle(String taskTitle) {
         return List.of();
+    }
+
+    @Override
+    public List<TaskDetailDTO> getWithStartsName(String employeeName) {
+        List<TaskDetail> byEmployeeName = taskDetailRepository.findByEmployeeNameStartingWith(employeeName);
+        return byEmployeeName.stream().map(TaskDetailMapper::mapToTaskDetailDTO).toList();
     }
 
     @Override

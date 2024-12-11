@@ -33,6 +33,16 @@ public class TaskDetailController {
         return ResponseEntity.ok(taskDetailService.getTaskDetailById(id));
     }
 
+    @GetMapping("/description/{description}")
+    public ResponseEntity<List<TaskDetailDTO>> getByDescription(@PathVariable String description) {
+        return ResponseEntity.ok(taskDetailService.getWithContainTaskDescription(description));
+    }
+
+    @GetMapping("/name/{employeeName}")
+    public ResponseEntity<List<TaskDetailDTO>> getByEmployeeName(@PathVariable String employeeName) {
+        return ResponseEntity.ok(taskDetailService.getWithStartsName(employeeName));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<TaskDetailDTO> updateTaskDetail(@PathVariable String id, @RequestBody TaskDetailDTO taskDetailDTO) {
         taskDetailDTO.setId(id);
