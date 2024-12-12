@@ -1,6 +1,5 @@
 package com.incetutku.taskservice.service;
 
-import com.incetutku.taskservice.dto.TaskDTO;
 import com.incetutku.taskservice.dto.TaskDetailDTO;
 import com.incetutku.taskservice.entity.TaskDetail;
 import com.incetutku.taskservice.mapper.TaskDetailMapper;
