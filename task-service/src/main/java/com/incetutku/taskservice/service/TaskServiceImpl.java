@@ -24,38 +24,31 @@ public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
     private final TaskDetailService taskDetailService;
-    private final RestTemplate restTemplate;
+    private final APIClient apiClient;
 
     @Override
     public TaskDTO save(TaskDTO taskDTO) {
-        ResponseEntity<EmployeeDTO> employeeDTOResponseEntity = restTemplate
-                .getForEntity("http://localhost:7202/api/v1/employees/" + taskDTO.getAssignee(), EmployeeDTO.class);
+        EmployeeDTO employeeDTO = apiClient.getEmployeeById(taskDTO.getAssignee());
 
-        EmployeeDTO employeeDTO = employeeDTOResponseEntity.getBody();
+        Task savableTask = TaskMapper.mapToTask(taskDTO);
+        Task savedTask = taskRepository.save(savableTask);
 
-        if (!Objects.isNull(employeeDTO) && employeeDTOResponseEntity.getStatusCode().is2xxSuccessful()) {
-            Task savableTask = TaskMapper.mapToTask(taskDTO);
-            Task savedTask = taskRepository.save(savableTask);
+        taskDTO.setAssignee(employeeDTO.getId());
+        taskDTO.setId(savedTask.getId());
 
-            taskDTO.setAssignee(employeeDTO.getId());
-            taskDTO.setId(savedTask.getId());
+        TaskDetailDTO taskDetailDTO = TaskDetailDTO.builder()
+                .employeeId(employeeDTO.getId())
+                .employeeName(employeeDTO.getName())
+                .employeeSurname(employeeDTO.getSurname())
+                .taskTitle(taskDTO.getTitle())
+                .taskDescription(taskDTO.getDescription())
+                .status(taskDTO.getStatus())
+                .priority(taskDTO.getPriorityType())
+                .build();
 
-            TaskDetailDTO taskDetailDTO = TaskDetailDTO.builder()
-                    .employeeId(employeeDTO.getId())
-                    .employeeName(employeeDTO.getName())
-                    .employeeSurname(employeeDTO.getSurname())
-                    .taskTitle(taskDTO.getTitle())
-                    .taskDescription(taskDTO.getDescription())
-                    .status(taskDTO.getStatus())
-                    .priority(taskDTO.getPriorityType())
-                    .build();
+        taskDetailService.save(taskDetailDTO);
 
-            taskDetailService.save(taskDetailDTO);
-
-            return TaskMapper.mapToTaskDTO(savedTask);
-        }
-
-        return new TaskDTO();
+        return TaskMapper.mapToTaskDTO(savedTask);
     }
 
     @Override
