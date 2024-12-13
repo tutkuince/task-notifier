@@ -15,6 +15,12 @@ spring:
     elasticsearch:
       cluster-node: localhost:9200
 
+  rabbitmq:
+    username: admin
+    password: s3cr3t
+    port: 5672
+    host: localhost
+
   jpa:
     show-sql: true
     hibernate:
