@@ -1,22 +1,22 @@
 package com.incetutku.taskservice.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.incetutku.taskservice.dto.EmployeeDTO;
 import com.incetutku.taskservice.dto.TaskDTO;
 import com.incetutku.taskservice.dto.TaskDetailDTO;
+import com.incetutku.taskservice.dto.TaskNotificationDTO;
 import com.incetutku.taskservice.entity.PriorityType;
 import com.incetutku.taskservice.entity.Status;
 import com.incetutku.taskservice.entity.Task;
 import com.incetutku.taskservice.mapper.TaskMapper;
+import com.incetutku.taskservice.producer.TaskNotificationProducer;
 import com.incetutku.taskservice.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -25,9 +25,10 @@ public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
     private final TaskDetailService taskDetailService;
     private final APIClient apiClient;
+    private final TaskNotificationProducer taskNotificationProducer;
 
     @Override
-    public TaskDTO save(TaskDTO taskDTO) {
+    public TaskDTO save(TaskDTO taskDTO) throws JsonProcessingException {
         EmployeeDTO employeeDTO = apiClient.getEmployeeById(taskDTO.getAssignee());
 
         Task savableTask = TaskMapper.mapToTask(taskDTO);
@@ -47,6 +48,14 @@ public class TaskServiceImpl implements TaskService {
                 .build();
 
         taskDetailService.save(taskDetailDTO);
+
+        TaskNotificationDTO taskNotificationDTO = new TaskNotificationDTO();
+        taskNotificationDTO.setTaskId(savedTask.getId());
+        taskNotificationDTO.setTaskTitle(savedTask.getTitle());
+        taskNotificationDTO.setTaskDescription(savedTask.getDescription());
+        taskNotificationDTO.setEmployeeId(employeeDTO.getId());
+
+        taskNotificationProducer.sendToQueue(taskNotificationDTO);
 
         return TaskMapper.mapToTaskDTO(savedTask);
     }

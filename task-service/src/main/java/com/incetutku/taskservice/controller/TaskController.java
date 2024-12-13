@@ -1,5 +1,6 @@
 package com.incetutku.taskservice.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.incetutku.taskservice.dto.TaskDTO;
 import com.incetutku.taskservice.service.TaskService;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,7 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<TaskDTO> createTask(@RequestBody TaskDTO taskDTO) {
+    public ResponseEntity<TaskDTO> createTask(@RequestBody TaskDTO taskDTO) throws JsonProcessingException {
         return new ResponseEntity<>(taskService.save(taskDTO), HttpStatus.CREATED);
     }
 
