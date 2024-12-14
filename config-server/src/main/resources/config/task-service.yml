@@ -42,3 +42,8 @@ ms:
       name: pro-queue
     routing:
       name: pro-routing
+
+management:
+  tracing:
+    sampling:
+      probability: "1.0"
