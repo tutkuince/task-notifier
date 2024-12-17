@@ -4,6 +4,7 @@ import com.incetutku.employeeservice.dto.EmployeeDTO;
 import com.incetutku.employeeservice.entity.Employee;
 import com.incetutku.employeeservice.mapper.EmployeeMapper;
 import com.incetutku.employeeservice.repository.EmployeeRepository;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @CircuitBreaker(name = "EMPLOYEE_SERVICE", fallbackMethod = "employeeServiceFallbackMethodForDTO")
     public EmployeeDTO save(EmployeeDTO employeeDTO) {
         Employee employee = EmployeeMapper.mapToEmployee(employeeDTO);
 
@@ -61,5 +63,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Page<EmployeeDTO> findPagination(int pageSize, int pageNo, String sortField, String sortDirection) {
         return null;
+    }
+
+    private EmployeeDTO employeeServiceFallbackMethodForDTO(Throwable throwable) {
+        EmployeeDTO dto = new EmployeeDTO();
+        dto.setName("This Error Comes from Employee Service for dto");
+        System.out.println("This Error Comes from Employee Service for dto");
+        return dto;
     }
 }

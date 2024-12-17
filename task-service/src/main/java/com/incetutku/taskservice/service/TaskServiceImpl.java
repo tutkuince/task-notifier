@@ -11,6 +11,7 @@ import com.incetutku.taskservice.entity.Task;
 import com.incetutku.taskservice.mapper.TaskMapper;
 import com.incetutku.taskservice.producer.TaskNotificationProducer;
 import com.incetutku.taskservice.repository.TaskRepository;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,6 +29,7 @@ public class TaskServiceImpl implements TaskService {
     private final TaskNotificationProducer taskNotificationProducer;
 
     @Override
+    @CircuitBreaker(name = "EMPLOYEE_SERVICE", fallbackMethod = "taskServiceFallbackMethodForDTO")
     public TaskDTO save(TaskDTO taskDTO) throws JsonProcessingException {
         EmployeeDTO employeeDTO = apiClient.getEmployeeById(taskDTO.getAssignee());
 
@@ -98,5 +100,12 @@ public class TaskServiceImpl implements TaskService {
         TaskDTO taskById = getTaskById(id);
         taskRepository.deleteById(id);
         return taskById;
+    }
+
+    private TaskDTO taskServiceFallbackMethodForDTO(Throwable throwable) {
+        TaskDTO dto = new TaskDTO();
+        dto.setDescription("This Error Comes from Employee Service for dto");
+        System.out.println("This Error Comes from Employee Service for dto");
+        return dto;
     }
 }
