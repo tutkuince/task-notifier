@@ -8,7 +8,7 @@ spring:
 eureka:
   instance:
     lease-renewal-interval-in-seconds: 10
-    health-check-url: /actuator/health
+    healthCheckUrl: /actuator/health
     metadata-map:
       startup: ${random.int}
   client:

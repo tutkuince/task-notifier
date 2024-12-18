@@ -4,6 +4,10 @@ server:
 spring:
   application:
     name: EUREKA-SERVER
+  boot:
+    admin:
+      client:
+        url: http://localhost:7207
 
 eureka:
   client:
@@ -14,3 +18,8 @@ management:
   tracing:
     sampling:
       probability: "1.0"
+  endpoints:
+    web:
+      exposure:
+        include:
+          - "*"

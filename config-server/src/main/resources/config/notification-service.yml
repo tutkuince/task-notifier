@@ -5,6 +5,11 @@ spring:
   application:
     name: NOTIFICATION-SERVICE
 
+  boot:
+    admin:
+      client:
+        url: http://localhost:7207
+
   datasource:
     username: postgres
     password: 12345
