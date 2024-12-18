@@ -14,8 +14,9 @@ eureka:
   client:
     registry-fetch-interval-seconds: 5
     service-url:
-      default-zone: http://localhost:7201/eureka/
-    endpoint.health.show-details: always
+      defaultZone: http://localhost:7201/eureka/
+  endpoint.health.show-details: always
+
 
 management:
   tracing:
