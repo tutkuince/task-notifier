@@ -1,1 +1,8 @@
-spring.application.name=admin-server
+spring:
+  application:
+    name: ADMIN-SERVER
+
+  config:
+    import: "optional:configserver:http://localhost:7200"
+
+
